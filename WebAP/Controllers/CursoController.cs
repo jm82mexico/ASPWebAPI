@@ -38,5 +38,12 @@ namespace WebAP.Controllers
         {
             return await mediator.Send(data);
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> Editar(int id, Editar.Ejecuta data)
+        {
+            data.CursoId = id;
+            return await mediator.Send(data);
+        }
     }
 }
