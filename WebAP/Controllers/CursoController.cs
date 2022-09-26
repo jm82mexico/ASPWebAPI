@@ -21,12 +21,16 @@ namespace WebAP.Controllers
             mediator = _mediator;
         }
 
-
         [HttpGet]
-
         public async Task<ActionResult<List<Curso>>> Get()
         {
             return await mediator.Send(new Consulta.ListarCursos());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Curso>> Detalle(int id)
+        {
+            return await mediator.Send(new ConsultaId.CursoUnico { Id = id });
         }
     }
 }
