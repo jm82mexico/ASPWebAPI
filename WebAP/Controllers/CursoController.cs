@@ -45,5 +45,11 @@ namespace WebAP.Controllers
             data.CursoId = id;
             return await mediator.Send(data);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<Unit> Eliminar(int id)
+        {
+            return await mediator.Send(new Eliminar.Ejecuta { CursoId = id });
+        }
     }
 }
