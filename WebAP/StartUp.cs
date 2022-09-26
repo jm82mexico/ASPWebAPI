@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Persitencia;
 using MediatR;
 using Aplicacion.Cursos;
-
+using FluentValidation.AspNetCore;
 namespace WebAP
 {
     public class Startup
@@ -29,7 +29,9 @@ namespace WebAP
             // * CONFIGURACIÓNN PARA LA INYECCIÓN DE DEPENDENCIAS
             services.AddMediatR(typeof(Consulta.Manejador).Assembly);
 
-            services.AddControllers();
+            //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
+            services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
+
 
         }
 
