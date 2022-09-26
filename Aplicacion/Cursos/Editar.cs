@@ -6,6 +6,8 @@ using MediatR;
 using Dominio;
 using Persitencia;
 using FluentValidation;
+using Aplicacion.ManejadorError;
+using System.Net;
 
 namespace Aplicacion.Cursos
 {
@@ -44,7 +46,10 @@ namespace Aplicacion.Cursos
 
                 if (curso == null)
                 {
-                    throw new Exception("El curso no existe");
+                    // !SE SUSTITUYE POR EL MIDDLEWARE DE MANEJO DE ERRORES PERSONALIZADO
+                    // throw new Exception("No se pudo eliminar el curso");
+                    throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                    new { mensaje = "No se encontró el curso" });
                 }
 
                 curso.Titulo = request.Titulo ?? curso.Titulo;

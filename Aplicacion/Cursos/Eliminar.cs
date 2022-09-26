@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Dominio;
 using Persitencia;
 using MediatR;
+using System.Net;
+using Aplicacion.ManejadorError;
 
 namespace Aplicacion.Cursos
 {
@@ -30,7 +32,11 @@ namespace Aplicacion.Cursos
 
                 if (curso == null)
                 {
-                    throw new Exception("No se pudo eliminar el curso");
+                    // !SE SUSTITUYE POR EL MIDDLEWARE DE MANEJO DE ERRORES PERSONALIZADO
+                    // throw new Exception("No se pudo eliminar el curso");
+                    throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                    new { mensaje = "No se encontró el curso" });
+
                 }
 
                 context.Remove(curso);

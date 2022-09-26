@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Dominio;
 using Persitencia;
 using MediatR;
+using Aplicacion.ManejadorError;
+using System.Net;
 
 namespace Aplicacion.Cursos
 {
@@ -27,6 +29,15 @@ namespace Aplicacion.Cursos
             public async Task<Curso> Handle(CursoUnico request, CancellationToken cancellationToken)
             {
                 var curso = await context.Curso.FindAsync(request.Id);
+
+                if (curso == null)
+                {
+                    // !SE SUSTITUYE POR EL MIDDLEWARE DE MANEJO DE ERRORES PERSONALIZADO
+                    // throw new Exception("No se pudo eliminar el curso");
+                    throw new ManejadorExcepcion(HttpStatusCode.NotFound,
+                    new { mensaje = "No se encontró el curso" });
+
+                }
 
                 return curso;
             }

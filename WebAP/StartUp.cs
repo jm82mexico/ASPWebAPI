@@ -7,6 +7,8 @@ using Persitencia;
 using MediatR;
 using Aplicacion.Cursos;
 using FluentValidation.AspNetCore;
+using WebAP.Middleware;
+
 namespace WebAP
 {
     public class Startup
@@ -38,9 +40,11 @@ namespace WebAP
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ManejadorErrorMiddleware>();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // ! SE DESHABILITA POR LA CREACIÓN DEL MIDDLEWARE PARA MANEJO DE ERRORES
+                // app.UseDeveloperExceptionPage();
             }
 
             app.UseRouting();
