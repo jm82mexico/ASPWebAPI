@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dominio;
 using Persitencia;
 using MediatR;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aplicacion.Cursos
 {
@@ -12,6 +13,7 @@ namespace Aplicacion.Cursos
     {
         public class Ejecuta : IRequest
         {
+            [Required(ErrorMessage = "Por favor ingrese el título")]
             public string Titulo { get; set; }
             public string Descripcion { get; set; }
             public DateTime FechaPublicacion { get; set; }
