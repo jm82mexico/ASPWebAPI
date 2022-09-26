@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Persitencia;
+using MediatR;
+using Aplicacion.Cursos;
 
 namespace WebAP
 {
@@ -19,10 +21,13 @@ namespace WebAP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // * CONFIGURACIÓN PARA LA CONEXIÓN A LA BASE DE DATOS
             services.AddDbContext<CursosOnlineContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            // * CONFIGURACIÓNN PARA LA INYECCIÓN DE DEPENDENCIAS
+            services.AddMediatR(typeof(Consulta.Manejador).Assembly);
 
             services.AddControllers();
 
