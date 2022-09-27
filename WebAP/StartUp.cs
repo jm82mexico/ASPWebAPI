@@ -12,6 +12,8 @@ using Dominio;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication;
+using Aplicacion.Contratos;
+using Seguridad;
 
 namespace WebAP
 {
@@ -44,7 +46,10 @@ namespace WebAP
             identityBuilder.AddEntityFrameworkStores<CursosOnlineContext>();
             identityBuilder.AddSignInManager<SignInManager<Usuario>>();
             services.TryAddSingleton<ISystemClock,SystemClock>();
-        
+
+
+            // * CONFIGURACION PARA JWT
+            services.AddScoped<IJwtGenerador,JwtGenerador>();
 
 
         }
