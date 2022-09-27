@@ -13,43 +13,38 @@ namespace WebAP.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CursoController : ControllerBase
-    {
-        private readonly IMediator mediator;
-        public CursoController(IMediator _mediator)
-        {
-            mediator = _mediator;
-        }
+    public class CursoController : MiControllerBase    {
+  
 
         [HttpGet]
         public async Task<ActionResult<List<Curso>>> Get()
         {
-            return await mediator.Send(new Consulta.ListarCursos());
+            return await Mediator.Send(new Consulta.ListarCursos());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Curso>> Detalle(int id)
         {
-            return await mediator.Send(new ConsultaId.CursoUnico { Id = id });
+            return await Mediator.Send(new ConsultaId.CursoUnico { Id = id });
         }
 
         [HttpPost]
         public async Task<ActionResult<Unit>> Crear(Nuevo.Ejecuta data)
         {
-            return await mediator.Send(data);
+            return await Mediator.Send(data);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Editar(int id, Editar.Ejecuta data)
         {
             data.CursoId = id;
-            return await mediator.Send(data);
+            return await Mediator.Send(data);
         }
 
         [HttpDelete("{id}")]
         public async Task<Unit> Eliminar(int id)
         {
-            return await mediator.Send(new Eliminar.Ejecuta { CursoId = id });
+            return await Mediator.Send(new Eliminar.Ejecuta { CursoId = id });
         }
     }
 }
