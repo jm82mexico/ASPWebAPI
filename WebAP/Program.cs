@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Dominio;
+using Microsoft.AspNetCore.Identity;
+
 namespace WebAP
 {
     public class Program
@@ -20,8 +23,11 @@ namespace WebAP
                 var services = ambiente.ServiceProvider;
                  try
                  {
+                    var userManager = services.GetRequiredService<UserManager<Usuario>>();
                     var context = services.GetRequiredService<CursosOnlineContext>();
                     context.Database.Migrate();
+                    // * SE COLOCA WAIT YA QUE MAIN NO SE PUEDE COLOCAR COMO ESTATICO
+                    DataPrueba.InsetarData(context,userManager).Wait();
                  }
                  catch (System.Exception ex)
                  {
