@@ -8,6 +8,8 @@ using MediatR;
 using Aplicacion.Cursos;
 using FluentValidation.AspNetCore;
 using WebAP.Middleware;
+using Dominio;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebAP
 {
@@ -33,6 +35,13 @@ namespace WebAP
 
             //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
             services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
+
+            // *CONFIGURACIÓN PARA EL USO DE IDENTITY
+            var builder = services.AddIdentityCore<Usuario>();
+            var identityBuilder = new IdentityBuilder(builder.UserType,builder.Services);
+            identityBuilder.AddEntityFrameworkStores<CursosOnlineContext>();
+            identityBuilder.AddSignInManager<SignInManager<Usuario>>();
+        
 
 
         }
