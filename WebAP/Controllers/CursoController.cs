@@ -8,15 +8,18 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using Dominio;
 using Aplicacion.Cursos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAP.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CursoController : MiControllerBase    {
-  
+    public class CursoController : MiControllerBase
+    {
+
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<Curso>>> Get()
         {
             return await Mediator.Send(new Consulta.ListarCursos());

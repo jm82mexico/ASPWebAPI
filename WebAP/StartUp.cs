@@ -14,6 +14,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Aplicacion.Contratos;
 using Seguridad;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebAP
 {
@@ -42,14 +45,27 @@ namespace WebAP
 
             // *CONFIGURACIÓN PARA EL USO DE IDENTITY
             var builder = services.AddIdentityCore<Usuario>();
-            var identityBuilder = new IdentityBuilder(builder.UserType,builder.Services);
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<CursosOnlineContext>();
             identityBuilder.AddSignInManager<SignInManager<Usuario>>();
-            services.TryAddSingleton<ISystemClock,SystemClock>();
+            services.TryAddSingleton<ISystemClock, SystemClock>();
 
+            // *CONFIGURACIÓN DE LA AUTENTICACIÓN POR TOKEN
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("PelucheCachorriux"));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.TokenValidationParameters =
+                    new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateAudience = false, //Validación por IP's
+                        ValidateIssuer = false
+                    };
+            });
             // * CONFIGURACION PARA JWT
-            services.AddScoped<IJwtGenerador,JwtGenerador>();
+            services.AddScoped<IJwtGenerador, JwtGenerador>();
 
 
         }
@@ -63,6 +79,8 @@ namespace WebAP
                 // ! SE DESHABILITA POR LA CREACIÓN DEL MIDDLEWARE PARA MANEJO DE ERRORES
                 // app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseRouting();
 
