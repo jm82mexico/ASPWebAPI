@@ -9,11 +9,14 @@ using Persitencia;
 using FluentValidation;
 using Aplicacion.ManejadorError;
 using System.Net;
+using Aplicacion.Contratos;
+
 namespace Aplicacion.Seguridad
 {
     public class Login
     {
-        public class Ejecuta : IRequest<UsuarioData>{
+        public class Ejecuta : IRequest<UsuarioData>
+        {
             public string Email { get; set; }
             public string Password { get; set; }
         }
@@ -30,38 +33,41 @@ namespace Aplicacion.Seguridad
         {
             private readonly UserManager<Usuario> _userManager;
             private readonly SignInManager<Usuario> _signInManager;
-
             private readonly CursosOnlineContext _context;
+
+            private readonly IJwtGenerador _jwtGenerador;
             public Manejador(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager,
-            CursosOnlineContext context)
+            CursosOnlineContext context, IJwtGenerador jwtGenerador)
             {
                 _userManager = userManager;
                 _signInManager = signInManager;
                 _context = context;
+                _jwtGenerador = jwtGenerador;
             }
             public async Task<UsuarioData> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-               var usuario = await _userManager.FindByEmailAsync(request.Email);
+                var usuario = await _userManager.FindByEmailAsync(request.Email);
 
-               if(usuario == null)
-               {
+                if (usuario == null)
+                {
                     throw new ManejadorExcepcion(HttpStatusCode.Unauthorized);
-               }
+                }
 
-               var resultado = await _signInManager.CheckPasswordSignInAsync(usuario,request.Password,false);
+                var resultado = await _signInManager.CheckPasswordSignInAsync(usuario, request.Password, false);
 
-               if(resultado.Succeeded)
-               {
-                    return new UsuarioData{
+                if (resultado.Succeeded)
+                {
+                    return new UsuarioData
+                    {
                         NombreCompleto = usuario.NombreCompleto,
-                        Token = "Aqui ira la data del token",
+                        Token = _jwtGenerador.CrearToken(usuario),
                         UserName = usuario.UserName,
                         Email = usuario.Email,
                         Imagen = null
                     };
-               }
+                }
 
-               throw new ManejadorExcepcion(HttpStatusCode.Unauthorized);
+                throw new ManejadorExcepcion(HttpStatusCode.Unauthorized);
             }
         }
     }
