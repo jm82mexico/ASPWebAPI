@@ -19,7 +19,7 @@ namespace WebAP.Controllers
 
 
         [HttpGet]
-        [Authorize]
+
         public async Task<ActionResult<List<Curso>>> Get()
         {
             return await Mediator.Send(new Consulta.ListarCursos());

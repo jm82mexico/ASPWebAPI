@@ -17,6 +17,8 @@ using Seguridad;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WebAP
 {
@@ -41,7 +43,15 @@ namespace WebAP
             services.AddMediatR(typeof(Consulta.Manejador).Assembly);
 
             //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
-            services.AddControllers().AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
+            services.AddControllers(
+                opt =>
+                {
+                    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    opt.Filters.Add(new AuthorizeFilter(policy));
+                }
+            ).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
+
+
 
             // *CONFIGURACIÓN PARA EL USO DE IDENTITY
             var builder = services.AddIdentityCore<Usuario>();

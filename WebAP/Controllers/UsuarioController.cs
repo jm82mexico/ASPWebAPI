@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aplicacion.Seguridad;
 using Dominio;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace WebAP.Controllers
 {
-    
+    [AllowAnonymous]
     public class UsuarioController : MiControllerBase
     {
         [HttpPost("login")]
