@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Seguridad.TokenSeguridad;
 
 namespace WebAP
 {
@@ -51,6 +52,8 @@ namespace WebAP
             //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
             ).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
 
+            // * RECUPERAR LA INFORMACIÓN DEL USUARIO
+            services.AddScoped<IUsuarioSesion, UsuarioSesion>();
 
 
             // *CONFIGURACIÓN PARA EL USO DE IDENTITY

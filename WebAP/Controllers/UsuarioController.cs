@@ -26,5 +26,12 @@ namespace WebAP.Controllers
             return await Mediator.Send(parametros);
         }
 
+        [HttpGet]
+
+        public async Task<ActionResult<UsuarioData>> DevolverUsuario()
+        {
+            return await Mediator.Send(new UsuarioActual.Ejecutar());
+        }
+
     }
 }
