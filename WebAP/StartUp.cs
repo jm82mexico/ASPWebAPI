@@ -20,6 +20,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Seguridad.TokenSeguridad;
+using AutoMapper;
 
 namespace WebAP
 {
@@ -52,9 +53,6 @@ namespace WebAP
             //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
             ).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
 
-            // * RECUPERAR LA INFORMACIÓN DEL USUARIO
-            services.AddScoped<IUsuarioSesion, UsuarioSesion>();
-
 
             // *CONFIGURACIÓN PARA EL USO DE IDENTITY
             var builder = services.AddIdentityCore<Usuario>();
@@ -79,6 +77,10 @@ namespace WebAP
             });
             // * CONFIGURACION PARA JWT
             services.AddScoped<IJwtGenerador, JwtGenerador>();
+            // * RECUPERAR LA INFORMACIÓN DEL USUARIO
+            services.AddScoped<IUsuarioSesion, UsuarioSesion>();
+            // * CONFIGUACIÓN AUTOMAPPER
+            services.AddAutoMapper(typeof(Consulta.Manejador));
 
 
         }

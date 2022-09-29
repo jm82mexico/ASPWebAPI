@@ -6,26 +6,33 @@ using MediatR;
 using Dominio;
 using Persitencia;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace Aplicacion.Cursos
 {
     public class Consulta
     {
-        public class ListarCursos : IRequest<List<Curso>> { }
-        public class Manejador : IRequestHandler<ListarCursos, List<Curso>>
+        public class ListarCursos : IRequest<List<CursoDto>> { }
+        public class Manejador : IRequestHandler<ListarCursos, List<CursoDto>>
         {
-            private readonly CursosOnlineContext context;
+            private readonly CursosOnlineContext _context;
+            private readonly IMapper _mapper;
 
-            public Manejador(CursosOnlineContext _context)
+            public Manejador(CursosOnlineContext context, IMapper mapper)
             {
-                context = _context;
+                _context = context;
+                _mapper = mapper;
             }
 
-            public async Task<List<Curso>> Handle(ListarCursos request, CancellationToken cancellationToken)
+            public async Task<List<CursoDto>> Handle(ListarCursos request, CancellationToken cancellationToken)
             {
-                var cursos = await context.Curso.ToListAsync();
+                var cursos = await _context.Curso
+                    .Include(x => x.InstructoresLink)
+                    .ThenInclude(x => x.Instructor).ToListAsync();
 
-                return cursos;
+                var cursoDto = _mapper.Map<List<Curso>, List<CursoDto>>(cursos);
+
+                return cursoDto;
             }
         }
     }
