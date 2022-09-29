@@ -32,6 +32,8 @@ namespace Aplicacion.Cursos
             public async Task<CursoDto> Handle(CursoUnico request, CancellationToken cancellationToken)
             {
                 var curso = await context.Curso
+                .Include(x => x.ComentarioLista)
+                .Include(x => x.Promocion)
                 .Include(x => x.InstructoresLink)
                 .ThenInclude(y => y.Instructor)
                 .FirstOrDefaultAsync(a => a.CursoId == request.Id);
