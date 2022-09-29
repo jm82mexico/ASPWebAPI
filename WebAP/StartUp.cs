@@ -41,14 +41,14 @@ namespace WebAP
             });
             // * CONFIGURACIÓNN PARA LA INYECCIÓN DE DEPENDENCIAS
             services.AddMediatR(typeof(Consulta.Manejador).Assembly);
-
-            //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
+            // * AGREGAR SEGURIDAD A TODOS LOS CONTROLADORES
             services.AddControllers(
                 opt =>
                 {
                     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                     opt.Filters.Add(new AuthorizeFilter(policy));
                 }
+            //* CONFIGURACION PARA LA VALIDACIÓN CON FLUENT
             ).AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<Nuevo>());
 
 
