@@ -15,10 +15,11 @@ namespace Aplicacion.Cursos
     {
         public class Ejecuta : IRequest
         {
-            public int CursoId { get; set; }
+            public Guid CursoId { get; set; }
             public string Titulo { get; set; }
             public string Descripcion { get; set; }
             public DateTime? FechaPublicacion { get; set; }
+            public List<Guid> ListaInstructor { get; set; }
         }
 
         public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -55,6 +56,30 @@ namespace Aplicacion.Cursos
                 curso.Titulo = request.Titulo ?? curso.Titulo;
                 curso.Descripcion = request.Descripcion ?? curso.Descripcion;
                 curso.FechaPublicacion = request.FechaPublicacion ?? curso.FechaPublicacion;
+
+                if (request.ListaInstructor != null)
+                {
+                    if (request.ListaInstructor.Count > 0)
+                    {
+                        // * Eliminar los instructores actuales de la base de datos
+                        var instructoresDB = context.CursoInstructor.Where(x => x.CursoId == request.CursoId);
+                        foreach (var instructorEliminar in instructoresDB)
+                        {
+                            context.CursoInstructor.Remove(instructorEliminar);
+                        }
+
+                        // *Agregar a los instructores enviados por el cliente
+                        foreach (var id in request.ListaInstructor)
+                        {
+                            var nuevoInstructor = new CursoInstructor
+                            {
+                                CursoId = request.CursoId,
+                                InstructorId = id
+                            };
+                            context.CursoInstructor.Add(nuevoInstructor);
+                        }
+                    }
+                }
 
                 var resultado = await context.SaveChangesAsync();
 
