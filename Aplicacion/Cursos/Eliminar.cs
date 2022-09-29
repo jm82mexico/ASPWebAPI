@@ -14,7 +14,7 @@ namespace Aplicacion.Cursos
     {
         public class Ejecuta : IRequest
         {
-            public int CursoId { get; set; }
+            public Guid CursoId { get; set; }
         }
 
         public class Manejador : IRequestHandler<Ejecuta>
@@ -28,6 +28,14 @@ namespace Aplicacion.Cursos
 
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
+
+                var instructoresDB = context.CursoInstructor.Where(x => x.CursoId == request.CursoId);
+
+                foreach (var instructor in instructoresDB)
+                {
+                    context.CursoInstructor.Remove(instructor);
+                }
+
                 var curso = await context.Curso.FindAsync(request.CursoId);
 
                 if (curso == null)
