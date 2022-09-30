@@ -21,6 +21,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Seguridad.TokenSeguridad;
 using AutoMapper;
+using Persitencia.DapperConexion;
+using Persitencia.DapperConexion.Instructor;
 
 namespace WebAP
 {
@@ -41,6 +43,12 @@ namespace WebAP
             {
                 opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            // * CONFIGURACION DE LA CONEXIÓN DE LA BASE DE DATOS CON STORED PROCEDURES
+            services.AddOptions();
+            services.Configure<ConexionConfiguracion>(Configuration.GetSection("ConnectionStrings"));
+            services.AddTransient<IFactoryConnection, FactoryConnection>();
+            services.AddScoped<IInstructor, InstructorRepositorio>();
+
             // * CONFIGURACIÓNN PARA LA INYECCIÓN DE DEPENDENCIAS
             services.AddMediatR(typeof(Consulta.Manejador).Assembly);
             // * AGREGAR SEGURIDAD A TODOS LOS CONTROLADORES
