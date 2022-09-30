@@ -123,9 +123,31 @@ namespace Persitencia.DapperConexion.Instructor
             return instructorList;
         }
 
-        public Task<InstructorModel> ObtenerPorId(Guid id)
+        public async Task<InstructorModel> ObtenerPorId(Guid id)
         {
-            throw new NotImplementedException();
+            var storeProcedure = "usp_obtener_instructor_por_id";
+
+            InstructorModel instructor = null;
+
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+                instructor = await connection.QueryFirstAsync<InstructorModel>(
+                    storeProcedure,
+                    new
+                    {
+                        Id = id
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return instructor;
+            }
+            catch (System.Exception)
+            {
+
+                throw new Exception("No se pudo encontrar el instructor");
+            }
         }
     }
 }

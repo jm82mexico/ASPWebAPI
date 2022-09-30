@@ -20,6 +20,12 @@ namespace WebAP.Controllers
             return await Mediator.Send(new Consulta.Lista());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<InstructorModel>> ObtenerPorId(Guid id)
+        {
+            return await Mediator.Send(new ConsultaId.Ejecuta { Id = id });
+        }
+
         [HttpPost]
         public async Task<ActionResult<Unit>> Crear(Nuevo.Ejecuta data)
         {
