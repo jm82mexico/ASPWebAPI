@@ -43,9 +43,30 @@ namespace Persitencia.DapperConexion.Instructor
             }
         }
 
-        public Task<int> Eliminar(Guid id)
+        public async Task<int> Eliminar(Guid id)
         {
-            throw new NotImplementedException();
+            var storeProcedure = "usp_instructor_elimina";
+
+            try
+            {
+                var connection = _factoryConnection.GetConnection();
+
+                var resultado = await connection.ExecuteAsync(
+                    storeProcedure,
+                    new
+                    {
+                        Id = id
+                    },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return resultado;
+            }
+            catch (System.Exception)
+            {
+
+                throw new Exception("No se pudo eliminar el instructor");
+            }
         }
 
         public async Task<int> Nuevo(string nombre, string apellidos, string titulo)
