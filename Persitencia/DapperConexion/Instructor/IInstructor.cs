@@ -13,7 +13,7 @@ namespace Persitencia.DapperConexion.Instructor
 
         Task<int> Nuevo(string nombre, string apellidos, string titulo);
 
-        Task<int> Actualizar(InstructorModel parametros);
+        Task<int> Actualizar(Guid instructorId, string nombre, string apellidos, string titulo);
 
         Task<int> Eliminar(Guid id);
     }
