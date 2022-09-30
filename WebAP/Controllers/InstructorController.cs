@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Aplicacion.Instructores;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Persitencia.DapperConexion.Instructor;
@@ -17,6 +18,12 @@ namespace WebAP.Controllers
         public async Task<ActionResult<List<InstructorModel>>> ObtenerInstructores()
         {
             return await Mediator.Send(new Consulta.Lista());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Unit>> Crear(Nuevo.Ejecuta data)
+        {
+            return await Mediator.Send(data);
         }
     }
 }
