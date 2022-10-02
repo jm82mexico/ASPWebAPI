@@ -23,6 +23,7 @@ using Seguridad.TokenSeguridad;
 using AutoMapper;
 using Persitencia.DapperConexion;
 using Persitencia.DapperConexion.Instructor;
+using Microsoft.OpenApi.Models;
 
 namespace WebAP
 {
@@ -90,6 +91,17 @@ namespace WebAP
             // * CONFIGUACIÓN AUTOMAPPER
             services.AddAutoMapper(typeof(Consulta.Manejador));
 
+            // *AGREGAR SWAGGEER
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Services de mantenimiento de cursos",
+                    Version = "v1"
+                });
+                c.CustomSchemaIds(c => c.FullName);
+
+            });
 
         }
 
@@ -112,6 +124,12 @@ namespace WebAP
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cursos Online v1");
             });
         }
     }
