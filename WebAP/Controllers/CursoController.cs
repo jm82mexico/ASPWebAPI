@@ -9,6 +9,7 @@ using MediatR;
 using Dominio;
 using Aplicacion.Cursos;
 using Microsoft.AspNetCore.Authorization;
+using Persitencia.DapperConexion.Paginacion;
 
 namespace WebAP.Controllers
 {
@@ -48,6 +49,12 @@ namespace WebAP.Controllers
         public async Task<Unit> Eliminar(Guid id)
         {
             return await Mediator.Send(new Eliminar.Ejecuta { CursoId = id });
+        }
+
+        [HttpPost("report")]
+        public async Task<ActionResult<PaginacionModel>> Report(PaginacionCurso.Ejecuta data)
+        {
+            return await Mediator.Send(data);
         }
     }
 }

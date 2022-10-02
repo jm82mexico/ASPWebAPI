@@ -24,6 +24,7 @@ using AutoMapper;
 using Persitencia.DapperConexion;
 using Persitencia.DapperConexion.Instructor;
 using Microsoft.OpenApi.Models;
+using Persitencia.DapperConexion.Paginacion;
 
 namespace WebAP
 {
@@ -49,6 +50,7 @@ namespace WebAP
             services.Configure<ConexionConfiguracion>(Configuration.GetSection("ConnectionStrings"));
             services.AddTransient<IFactoryConnection, FactoryConnection>();
             services.AddScoped<IInstructor, InstructorRepositorio>();
+            services.AddScoped<IPaginacion, PaginacionRepositorio>();
 
             // * CONFIGURACIÓNN PARA LA INYECCIÓN DE DEPENDENCIAS
             services.AddMediatR(typeof(Consulta.Manejador).Assembly);
