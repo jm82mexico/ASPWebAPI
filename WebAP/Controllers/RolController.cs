@@ -19,5 +19,11 @@ namespace WebAP.Controllers
         {
             return await Mediator.Send(parametros);
         }
+
+        [HttpDelete("eliminar")]
+        public async Task<ActionResult<Unit>> Eliminar(RolEliminar.Ejecuta parametros)
+        {
+            return await Mediator.Send(parametros);
+        }
     }
 }
