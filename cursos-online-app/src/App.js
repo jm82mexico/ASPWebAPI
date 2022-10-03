@@ -1,23 +1,16 @@
-import React, { useState } from 'react'
+import { TextField, ThemeProvider, Button } from '@mui/material'
+import theme from './theme/theme'
+import React from 'react'
 
 function App() {
-  const [nombre, cambiarNombre] = useState('No tiene nombre')
-
-  function eventoCajaTexto(e) {
-    cambiarNombre(e.target.value)
-  }
-
   return (
-    <div>
-      <h1> Bienvenidos al curso de ASP.NET y React Hooks {nombre} </h1>
-      <input
-        name="nombre"
-        type="text"
-        value={nombre}
-        id="prueba"
-        onChange={eventoCajaTexto}
-      ></input>
-    </div>
+    <ThemeProvider theme={theme}>
+      <h1> Bienvenidos al curso de ASP.NET y React Hooks </h1>
+      <TextField variant="outlined"></TextField>
+      <Button variant="contained" color="primary">
+        Mi botón de Material Design
+      </Button>
+    </ThemeProvider>
   )
 }
 
