@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
 function App() {
+  const [nombre, cambiarNombre] = useState('No tiene nombre')
+
+  function eventoCajaTexto(e) {
+    cambiarNombre(e.target.value)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1> Bienvenidos al curso de ASP.NET y React Hooks {nombre} </h1>
+      <input
+        name="nombre"
+        type="text"
+        value={nombre}
+        id="prueba"
+        onChange={eventoCajaTexto}
+      ></input>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
