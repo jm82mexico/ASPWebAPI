@@ -25,5 +25,11 @@ namespace WebAP.Controllers
         {
             return await Mediator.Send(parametros);
         }
+
+        [HttpPost("agregarRoleUsuario")]
+        public async Task<ActionResult<Unit>> AgregarRoleUsuario(UsuarioRolAgregar.Ejecuta parametros)
+        {
+            return await Mediator.Send(parametros);
+        }
     }
 }
