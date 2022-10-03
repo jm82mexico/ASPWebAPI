@@ -31,5 +31,12 @@ namespace WebAP.Controllers
         {
             return await Mediator.Send(parametros);
         }
+        [HttpPost("eliminarRoleUsuario")]
+
+        public async Task<ActionResult<Unit>> EliminarRoleUsuario(UsuarioRolEliminar.Ejecuta parametros)
+        {
+            return await Mediator.Send(parametros);
+        }
+
     }
 }
