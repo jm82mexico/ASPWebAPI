@@ -45,5 +45,11 @@ namespace WebAP.Controllers
             return await Mediator.Send(new RolLista.Ejecuta());
         }
 
+        [HttpGet("{username}")]
+        public async Task<ActionResult<List<string>>> ObtenerRolesPorUsuario(string username)
+        {
+            return await Mediator.Send(new ObtenerRolesPorUsuario.Ejecuta { Username = username });
+        }
+
     }
 }
