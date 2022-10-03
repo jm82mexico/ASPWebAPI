@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aplicacion.Instructores;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Persitencia.DapperConexion.Instructor;
@@ -14,6 +15,7 @@ namespace WebAP.Controllers
 
     public class InstructorController : MiControllerBase
     {
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<List<InstructorModel>>> ObtenerInstructores()
         {
