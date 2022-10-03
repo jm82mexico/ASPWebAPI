@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aplicacion.Seguridad;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -36,6 +37,12 @@ namespace WebAP.Controllers
         public async Task<ActionResult<Unit>> EliminarRoleUsuario(UsuarioRolEliminar.Ejecuta parametros)
         {
             return await Mediator.Send(parametros);
+        }
+
+        [HttpGet("lista")]
+        public async Task<ActionResult<List<IdentityRole>>> Lista()
+        {
+            return await Mediator.Send(new RolLista.Ejecuta());
         }
 
     }
