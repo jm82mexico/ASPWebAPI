@@ -18,8 +18,8 @@ axios.interceptors.request.use(
 const requestGenerico = {
   get: (url) => axios.get(url),
   post: (url, body) => axios.post(url, body),
-  put: (url, body) => axios.get(url, body),
-  delete: (url) => axios.get(url),
+  put: (url, body) => axios.put(url, body),
+  delete: (url) => axios.delete(url),
 }
 
 export default requestGenerico

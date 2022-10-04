@@ -7,3 +7,19 @@ export const registrarUsuario = (usuario) => {
     })
   })
 }
+
+export const obtenerUsuarioActual = () => {
+  return new Promise((resolve, reject) => {
+    HttpCliente.get('/usuario').then((res) => {
+      resolve(res)
+    })
+  })
+}
+
+export const actualizarUsuario = (usuario) => {
+  return new Promise((resolve, reject) => {
+    HttpCliente.put('/usuario', usuario).then((res) => {
+      resolve(res)
+    })
+  })
+}
