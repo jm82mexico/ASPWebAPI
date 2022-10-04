@@ -40,6 +40,12 @@ namespace WebAP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // * AGREGAR LA CONFIGURACIÓN DE LOS CORS
+            services.AddCors(o => o.AddPolicy("corsApp", builder =>
+            {
+                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            }));
+
             // * CONFIGURACIÓN PARA LA CONEXIÓN A LA BASE DE DATOS
             services.AddDbContext<CursosOnlineContext>(opt =>
             {
@@ -120,6 +126,8 @@ namespace WebAP
                 // ! SE DESHABILITA POR LA CREACIÓN DEL MIDDLEWARE PARA MANEJO DE ERRORES
                 // app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("corsApp");
 
             app.UseAuthentication();
 
