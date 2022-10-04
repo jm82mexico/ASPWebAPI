@@ -1,15 +1,14 @@
-import { TextField, ThemeProvider, Button } from '@mui/material'
+import { ThemeProvider } from '@mui/material'
 import theme from './theme/theme'
 import React from 'react'
+// import RegistrarUsuario from './Components/Seguridad/RegistrarUsuario'
+// import Login from './Components/Seguridad/Login'
+import PerfilUsuario from './Components/Seguridad/PerfilUsuario'
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <h1> Bienvenidos al curso de ASP.NET y React Hooks </h1>
-      <TextField variant="outlined"></TextField>
-      <Button variant="contained" color="primary">
-        Mi botón de Material Design
-      </Button>
+      <PerfilUsuario />
     </ThemeProvider>
   )
 }
