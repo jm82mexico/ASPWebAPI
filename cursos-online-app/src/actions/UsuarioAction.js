@@ -23,3 +23,11 @@ export const actualizarUsuario = (usuario) => {
     })
   })
 }
+
+export const loginUsuario = (usuario) => {
+  return new Promise((resolve, reject) => {
+    HttpCliente.post('/usuario/login', usuario).then((res) => {
+      resolve(res)
+    })
+  })
+}
