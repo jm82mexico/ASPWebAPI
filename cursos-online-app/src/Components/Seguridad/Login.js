@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { Avatar, Button, Container, TextField, Typography } from '@mui/material'
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined'
 import style from '../Tool/Style'

@@ -8,9 +8,14 @@ export const registrarUsuario = (usuario) => {
   })
 }
 
-export const obtenerUsuarioActual = () => {
+export const obtenerUsuarioActual = (dispatch) => {
   return new Promise((resolve, reject) => {
     HttpCliente.get('/usuario').then((res) => {
+      dispatch({
+        type: 'INICIAR_SESION',
+        sesion: res.data,
+        autenticado: true,
+      })
       resolve(res)
     })
   })
